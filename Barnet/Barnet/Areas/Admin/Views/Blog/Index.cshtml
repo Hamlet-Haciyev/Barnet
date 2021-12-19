@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Shared/_Layout.cshtml";
+}
+@model List<Blog>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <a class="btn btn-primary mb-3" asp-area="Admin" asp-controller="Blog" asp-action="Create">Create</a>
+        </div>
+        <hr />
+        <div class="col-lg-6">
+            <a class="btn btn-primary mb-3" asp-area="Admin" asp-controller="Blog" asp-action="CreateCategory">Create Category</a>
+        </div>
+        <hr />
+        <div class="col-lg-12 mt-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Category</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 0;
+                        foreach (var blog in Model)
+                        {
+                            i++;
+                            <tr>
+                                <th scope="row">@i</th>
+                                <td><img src="~/Uploads/@blog.Image" style="width:150px;max-height:150px;" alt="Alternate Text" /></td>
+                                <td>@Html.Raw(blog.Title!=null ? blog.Title : "Blog'un Title i yoxdu")</td>
+                                <td>@Html.Raw(blog.Description !=null ? blog.Description.Length > 150 ? blog.Description.Substring(0, 150) + "..." : blog.Description : "Blog'un description i yoxdu"  )</td>
+                                <td>@blog.Categories.Name</td>
+                                <td>
+                                    <a class="btn btn-success" asp-area="Admin" asp-controller="Blog" asp-action="Update" asp-route-id="@blog.Id">Update</a>
+                                    <a class="btn btn-danger" asp-area="Admin" asp-controller="Blog" asp-action="Delete" asp-route-id="@blog.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
